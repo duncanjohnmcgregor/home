@@ -1,0 +1,4 @@
+# Keep scripts but ignore temporary files
+*.tmp
+*.bak
+*.swp
