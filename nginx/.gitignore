@@ -1,0 +1,9 @@
+# SSL certificates and keys
+ssl/*.key
+ssl/*.crt
+ssl/*.pem
+ssl/*.csr
+
+# Logs
+logs/
+*.log
