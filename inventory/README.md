@@ -15,11 +15,29 @@ single self-contained file — works offline, saves to the browser, no login.
 - **＋ Add item** for anything the photos missed.
 - **⋯ menu → Download Notion CSV** to push everything into your Notion page.
 
-### Quickest ways to get it on your phone
-1. **GitHub Pages**: enable Pages for this repo → visit `…/inventory/`. (Best —
-   it's a real URL you can bookmark / "Add to Home Screen".)
-2. Or open the raw file via your repo on your phone.
-3. Or run `python3 -m http.server` in this folder and open it on your phone over Wi-Fi.
+### Deploy to your homelab (recommended)
+It's a static site, so any web server works. Easiest is the included container:
+
+```bash
+cd inventory
+docker compose up -d --build      # serves on port 8088
+```
+
+Then on your phone (same network) open **http://<homelab-ip>:8088** and use
+your browser's **Add to Home Screen** so it behaves like a native app.
+
+- Change the port: `INVENTORY_PORT=9000 docker compose up -d --build`
+- Already running the full Life-Manager stack? It's wired in there too —
+  `docker compose up -d inventory` from the repo root exposes the same `:8088`.
+- Put it behind your reverse proxy (Traefik/Caddy/NPM) for a tidy hostname like
+  `inventory.home.lan` and HTTPS on your LAN.
+
+### Other quick options
+- No Docker: `cd inventory && python3 -m http.server 8088` then open it over Wi-Fi.
+- Just want it on one phone: open `index.html` from the repo in mobile Safari/Chrome.
+
+> Data lives in each device's browser (localStorage). To move your edits between
+> devices, use **⋯ → Backup JSON** on one and **Restore from JSON** on the other.
 
 ## Getting it into Notion (no Notion API is connected to this session)
 Claude can't write to your Notion page directly here, so use the export:

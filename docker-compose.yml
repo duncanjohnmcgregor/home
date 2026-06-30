@@ -108,6 +108,24 @@ services:
     stdin_open: true
     tty: true
 
+  # Static move-inventory app (Austin → Sydney). Self-contained, no DB.
+  inventory:
+    build:
+      context: ./inventory
+      dockerfile: Dockerfile
+    image: move-inventory:latest
+    container_name: life-mgmt-inventory
+    restart: unless-stopped
+    ports:
+      - "${INVENTORY_PORT:-8088}:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    networks:
+      - life-mgmt-network
+
 volumes:
   postgres_data:
     driver: local
