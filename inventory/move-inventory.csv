@@ -1,0 +1,32 @@
+Item,Category,Room,Qty,Est. Value (USD),Decision,Power / Voltage,Notes,Confidence,Needs Confirm
+"Flat-screen TV (~65"" Sony)",Electronics,Living Room,1,900,Sell,"Dual-voltage (works on AU power w/ plug adapter), but tuner won't get AU channels",Bulky + costly to ship. Confirm exact size & model.,medium,Yes
+Soundbar,Electronics,Living Room,1,250,Ship,Confirm dual-voltage on power brick,Confirm brand/model.,medium,Yes
+TV stand / media console (black),Furniture,Living Room,1,180,Sell,,Bulky low-value furniture — usually not worth int'l shipping.,high,No
+PlayStation 5,Electronics,Living Room,1,400,Take in luggage,Dual-voltage (100–240V) — just needs AU Type-I plug adapter,Confirm disc vs digital edition.,high,Yes
+DualSense controller(s),Electronics,Living Room,1,60,Take in luggage,USB-charged,Confirm how many controllers.,medium,Yes
+Tall floor speaker / subwoofer (black cylinder),Electronics,Living Room,1,150,Unsure,Confirm dual-voltage,Couldn't ID confidently — is this a Sonos/subwoofer/floor speaker?,low,Yes
+Books (assorted),Misc,Living Room,20,100,Donate,,Heavy = expensive to ship by sea/air. Keep favourites in luggage. Confirm count.,low,Yes
+Shelf floor lamp (wood + fabric shade),Lighting,Living Room,1,90,Sell,120V bulb fixture — use AU bulb/adapter if shipped,Bulky for the value.,medium,No
+"Monstera plant (large, white pot)",Plants,Living Room,1,50,Give away,,⚠️ Australia bans importing live plants & soil (biosecurity). Cannot bring.,high,No
+Office chair (black mesh),Furniture,Office,1,120,Sell,,Easy to rebuy in AU.,high,No
+Recliner / armchair (grey),Furniture,Living Room,1,300,Sell,,Bulky. Sell unless sentimental/high-value.,medium,Yes
+Coffee table (wood),Furniture,Living Room,1,150,Sell,,,high,No
+Round side/end table,Furniture,Living Room,1,80,Sell,,,high,No
+"Candles (Sand+Fog, Corona Del Mar)",Decor,Living Room,3,40,Give away,,"Low value, not worth shipping.",high,No
+Foam roller,Fitness,Living Room,1,25,Take in luggage,,"Light, packs around other items.",high,No
+Area rug (white shag),Decor,Living Room,1,120,Ship,,Rolls up small-ish. Ship or sell. Confirm size.,medium,Yes
+"Mesh WiFi router (white, eero-style)",Electronics,Living Room,1,120,Take in luggage,Dual-voltage USB-C/barrel,Works in AU; your AU ISP may still supply its own modem. Confirm brand.,medium,Yes
+iPad / tablet,Electronics,Living Room,1,350,Take in luggage,USB-charged,Confirm model/size.,medium,Yes
+White sneakers,Shoes,Living Room,1,90,Take in luggage,,Confirm brand/size.,low,Yes
+King bed frame + adjustable base (grey upholstered),Furniture,Bedroom,1,1200,Sell,⚠️ Adjustable-base motor is 120V/60Hz — won't run on AU 240V/50Hz,Heavy + electric base incompatible. High resale value — sell well.,high,Yes
+King mattress,Furniture,Bedroom,1,800,Sell,,AU 'King' dimensions differ from US King; bulky to ship. Sell & rebuy.,high,No
+Bedding / green duvet set,Linens,Bedroom,1,120,Ship,,Light & packs flat. Note: US King sheets won't fit an AU King bed.,medium,No
+Nightstand (black),Furniture,Bedroom,1,70,Sell,,,high,No
+Clothing (full closet),Clothing,Bedroom,1,1500,Ship,,Highest-value-per-volume category — ship/luggage most of it. Confirm volume (boxes).,low,Yes
+Wire shelving rack (metal),Furniture,Bedroom,1,60,Sell,,Cheap to rebuy.,high,No
+Gym / duffel bag,Fitness,Bedroom,1,50,Take in luggage,,Use as a packing bag itself.,high,No
+Rice cooker (Zojirushi-style),Kitchen Appliance,Kitchen,1,200,Sell,⚠️ 120V heating appliance — will NOT work on AU 240V (a transformer is impractical for heat),"Sell here, rebuy AU model. Confirm if it's a dual-voltage travel model.",high,Yes
+Toaster oven / countertop microwave (black),Kitchen Appliance,Kitchen,1,120,Sell,⚠️ 120V heating appliance — won't work on AU power,Rebuy in AU.,high,No
+Dishware / plates / Tupperware,Kitchen,Kitchen,1,150,Donate,,"Heavy/breakable; ship only favourites, donate the rest. Confirm.",medium,Yes
+Cookware / utensils,Kitchen,Kitchen,1,100,Donate,,Ship good knives/pans; donate basics.,medium,Yes
+Toiletries (bathroom),Misc,Bathroom,1,50,Take in luggage,,Bring travel sizes; bin/finish the rest. No aerosols in checked-bag limits.,high,No

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+<meta name="theme-color" content="#0b1020" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Austin → Sydney · Move Inventory</title>
+<style>
+  :root{
+    --bg:#0b1020; --card:#151b33; --card2:#1c2440; --line:#26305a;
+    --txt:#eef2ff; --mut:#9aa6d4; --accent:#5b8cff; --accent2:#7c5cff;
+    --ship:#2dd4bf; --sell:#fbbf24; --luggage:#60a5fa; --donate:#a78bfa; --give:#f472b6; --bin:#fb7185; --unsure:#94a3b8;
+    --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    overscroll-behavior-y:none}
+  body{padding-bottom:calc(96px + var(--safe-b))}
+  .wrap{max-width:560px;margin:0 auto}
+  header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0b1020 70%,rgba(11,16,32,.85));
+    padding:calc(12px + var(--safe-t)) 16px 10px;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .ttl{font-size:19px;font-weight:800;letter-spacing:.2px;display:flex;align-items:center;gap:8px}
+  .ttl small{font-weight:600;color:var(--mut);font-size:12px}
+  .stats{display:flex;gap:8px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .stats::-webkit-scrollbar{display:none}
+  .stat{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 12px;min-width:84px}
+  .stat b{display:block;font-size:17px}
+  .stat span{font-size:11px;color:var(--mut)}
+  .filters{display:flex;gap:7px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .filters::-webkit-scrollbar{display:none}
+  .pill{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--mut);
+    padding:7px 13px;border-radius:999px;font-size:13px;font-weight:600}
+  .pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  main{padding:12px 12px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px;
+    display:flex;gap:12px;align-items:flex-start}
+  .thumb{width:52px;height:52px;border-radius:12px;background:var(--card2);display:flex;align-items:center;
+    justify-content:center;font-size:26px;flex:0 0 auto;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .grow{flex:1;min-width:0}
+  .name{font-weight:700;font-size:15px;line-height:1.25}
+  .meta{font-size:12px;color:var(--mut);margin-top:3px}
+  .row2{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .tag{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;color:#06121f}
+  .val{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:700;font-size:14px}
+  .confirm{font-size:11px;color:#ffd27a;margin-top:6px;display:flex;gap:5px;align-items:flex-start}
+  .volt{font-size:11px;color:#ffb4b4;margin-top:5px}
+  .fabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:10px;justify-content:center;
+    padding:10px 14px calc(10px + var(--safe-b));background:linear-gradient(0deg,#0b1020 65%,rgba(11,16,32,0))}
+  .fab{flex:1;max-width:230px;border:0;border-radius:14px;padding:14px;font-size:15px;font-weight:800;color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 8px 24px rgba(91,140,255,.35)}
+  .fab.alt{background:var(--card);border:1px solid var(--line);color:var(--txt);box-shadow:none}
+  /* sheet / modal */
+  .scrim{position:fixed;inset:0;background:rgba(2,5,15,.6);z-index:40;display:none}
+  .scrim.show{display:block}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--card);border-radius:22px 22px 0 0;
+    border-top:1px solid var(--line);transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);
+    max-height:92vh;overflow:auto;padding:6px 16px calc(20px + var(--safe-b))}
+  .sheet.show{transform:translateY(0)}
+  .grab{width:40px;height:5px;border-radius:3px;background:#3a456f;margin:8px auto 6px}
+  .sheet h3{margin:6px 0 14px;font-size:18px}
+  label{display:block;font-size:12px;color:var(--mut);margin:12px 0 5px;font-weight:600}
+  input,select,textarea{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--txt);
+    border-radius:12px;padding:12px;font-size:16px;font-family:inherit}
+  textarea{min-height:64px;resize:vertical}
+  .twocol{display:flex;gap:10px}.twocol>div{flex:1}
+  .btn{width:100%;border:0;border-radius:14px;padding:15px;font-size:16px;font-weight:800;color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));margin-top:18px}
+  .btn.ghost{background:var(--card2);border:1px solid var(--line)}
+  .btn.danger{background:#3a1d29;border:1px solid #6b2740;color:#ffb4b4}
+  .photoBtn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card2);
+    border:1px dashed var(--line);border-radius:12px;padding:14px;font-size:14px;color:var(--mut)}
+  .photoPrev{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-top:8px;display:none}
+  /* review mode */
+  .reviewCard{text-align:center;padding:10px 4px 0}
+  .reviewCard .big{font-size:64px;margin:6px 0}
+  .reviewCard .rname{font-size:22px;font-weight:800;margin:4px 0}
+  .reviewCard .rmeta{color:var(--mut);font-size:13px;margin-bottom:6px}
+  .decgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .decbtn{border:1px solid var(--line);border-radius:14px;padding:16px 10px;font-size:15px;font-weight:800;
+    color:#06121f}
+  .progress{height:6px;background:var(--card2);border-radius:3px;overflow:hidden;margin:10px 0 4px}
+  .progress>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .empty{text-align:center;color:var(--mut);padding:50px 20px;font-size:14px}
+  .toast{position:fixed;left:50%;bottom:calc(96px + var(--safe-b));transform:translateX(-50%);
+    background:#222b50;border:1px solid var(--line);color:#fff;padding:11px 16px;border-radius:12px;
+    font-size:13px;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+  .toast.show{opacity:1}
+  .menu{position:absolute;right:16px;top:calc(14px + var(--safe-t));z-index:25}
+  .iconbtn{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:12px;
+    width:40px;height:40px;font-size:18px}
+  details.exp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin:0 0 10px}
+  details.exp summary{padding:10px 0;font-weight:700;font-size:14px;cursor:pointer;list-style:none}
+  details.exp summary::-webkit-details-marker{display:none}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--mut);white-space:pre-wrap;word-break:break-word}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="menu"><button class="iconbtn" onclick="openMenu()">⋯</button></div>
+    <div class="ttl">🧳 Austin → Sydney <small>move inventory</small></div>
+    <div class="stats" id="stats"></div>
+    <div class="filters" id="filters"></div>
+  </header>
+  <main id="list"></main>
+</div>
+
+<div class="fabbar">
+  <button class="fab alt" onclick="startReview()">⚡ Quick triage</button>
+  <button class="fab" onclick="openEdit()">＋ Add item</button>
+</div>
+
+<div class="scrim" id="scrim" onclick="closeAll()"></div>
+
+<!-- Edit / add sheet -->
+<div class="sheet" id="editSheet">
+  <div class="grab"></div>
+  <h3 id="editTitle">Add item</h3>
+  <input type="hidden" id="f_id" />
+  <button type="button" class="photoBtn" onclick="document.getElementById('f_photo').click()">📷 Add / change photo</button>
+  <input type="file" id="f_photo" accept="image/*" capture="environment" style="display:none" onchange="onPhoto(event)" />
+  <img id="f_prev" class="photoPrev" />
+  <label>Item name</label>
+  <input id="f_name" placeholder="e.g. Sony 65&quot; TV" />
+  <div class="twocol">
+    <div><label>Category</label>
+      <select id="f_category"></select></div>
+    <div><label>Room</label>
+      <select id="f_room"></select></div>
+  </div>
+  <div class="twocol">
+    <div><label>Qty</label><input id="f_qty" type="number" inputmode="numeric" value="1" min="1" /></div>
+    <div><label>Est. value (USD)</label><input id="f_value" type="number" inputmode="decimal" value="0" min="0" /></div>
+  </div>
+  <label>Decision</label>
+  <select id="f_decision"></select>
+  <label>Power / voltage note (AU is 240V / Type-I plug)</label>
+  <input id="f_voltage" placeholder="e.g. dual-voltage, just needs adapter" />
+  <label>Notes</label>
+  <textarea id="f_note" placeholder="condition, sentimental value, sell price…"></textarea>
+  <button class="btn" onclick="saveItem()">Save</button>
+  <button class="btn ghost" onclick="closeAll()">Cancel</button>
+  <button class="btn danger" id="delBtn" onclick="deleteItem()" style="display:none">Delete item</button>
+</div>
+
+<!-- Review sheet -->
+<div class="sheet" id="reviewSheet">
+  <div class="grab"></div>
+  <div class="progress"><div id="revBar"></div></div>
+  <div class="rmeta" id="revCount" style="text-align:center;color:var(--mut);font-size:12px"></div>
+  <div class="reviewCard" id="revBody"></div>
+  <div class="decgrid" id="revDecs"></div>
+  <button class="btn ghost" onclick="closeAll()">Done for now</button>
+</div>
+
+<!-- Menu sheet -->
+<div class="sheet" id="menuSheet">
+  <div class="grab"></div>
+  <h3>Export & data</h3>
+  <button class="btn" onclick="exportCSV()">⬇︎ Download Notion CSV</button>
+  <button class="btn ghost" onclick="copyMarkdown()">📋 Copy Markdown (paste into Notion)</button>
+  <button class="btn ghost" onclick="exportJSON()">💾 Backup JSON</button>
+  <button class="btn ghost" onclick="document.getElementById('importFile').click()">📂 Restore from JSON</button>
+  <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importJSON(event)" />
+  <details class="exp" style="margin-top:14px">
+    <summary>How to get this into Notion</summary>
+    <div class="mono">1. Tap “Download Notion CSV”.
+2. In Notion open your “Austin → Sydney move inventory” page.
+3. Type /import → CSV → pick the file, OR drag the file onto the page.
+4. Notion builds the database with all columns. Re-export & re-import anytime to update.</div>
+  </details>
+  <button class="btn danger" onclick="resetSeed()">↺ Reset to seed (photos)</button>
+  <button class="btn ghost" onclick="closeAll()">Close</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="data/seed.js"></script>
+<script>
+const CATS=["Electronics","Furniture","Kitchen Appliance","Kitchen","Clothing","Shoes","Linens","Decor","Lighting","Fitness","Plants","Misc"];
+const ROOMS=["Living Room","Bedroom","Kitchen","Bathroom","Office","Other"];
+const DECISIONS=[
+  {k:"Ship",c:"--ship",emoji:"📦"},
+  {k:"Take in luggage",c:"--luggage",emoji:"🧳"},
+  {k:"Sell",c:"--sell",emoji:"💵"},
+  {k:"Donate",c:"--donate",emoji:"🎁"},
+  {k:"Give away",c:"--give",emoji:"🤝"},
+  {k:"Bin",c:"--bin",emoji:"🗑️"},
+  {k:"Unsure",c:"--unsure",emoji:"❓"}
+];
+const EMOJI={Electronics:"🔌",Furniture:"🛋️","Kitchen Appliance":"🍚",Kitchen:"🍽️",Clothing:"👕",Shoes:"👟",Linens:"🛏️",Decor:"🕯️",Lighting:"💡",Fitness:"🏋️",Plants:"🪴",Misc:"📦"};
+const decColor=k=>{const d=DECISIONS.find(x=>x.k===k);return d?getComputedStyle(document.documentElement).getPropertyValue(d.c):"#888"};
+const decEmoji=k=>{const d=DECISIONS.find(x=>x.k===k);return d?d.emoji:"❓"};
+
+const KEY="austin_sydney_inventory_v1";
+let state={items:[],meta:{}};
+let filter={type:"all",val:null};
+
+function load(){
+  const saved=localStorage.getItem(KEY);
+  if(saved){ try{ state=JSON.parse(saved); }catch(e){ seed(); } }
+  else seed();
+}
+function seed(){
+  const s=window.MOVE_SEED||{items:[],meta:{}};
+  state={items:JSON.parse(JSON.stringify(s.items)),meta:s.meta||{}};
+  save();
+}
+function save(){ localStorage.setItem(KEY,JSON.stringify(state)); }
+
+function visible(){
+  let it=state.items.slice();
+  if(filter.type==="room") it=it.filter(x=>x.room===filter.val);
+  if(filter.type==="decision") it=it.filter(x=>x.decision===filter.val);
+  if(filter.type==="confirm") it=it.filter(x=>x.needsConfirm);
+  return it;
+}
+function money(n){return "$"+Math.round(n).toLocaleString()}
+
+function render(){
+  // stats
+  const items=state.items;
+  const total=items.reduce((a,b)=>a+(+b.value||0)*(+b.qty||1),0);
+  const ship=items.filter(i=>i.decision==="Ship"||i.decision==="Take in luggage");
+  const shipVal=ship.reduce((a,b)=>a+(+b.value||0)*(+b.qty||1),0);
+  const sell=items.filter(i=>i.decision==="Sell");
+  const sellVal=sell.reduce((a,b)=>a+(+b.value||0)*(+b.qty||1),0);
+  const need=items.filter(i=>i.needsConfirm).length;
+  document.getElementById("stats").innerHTML=[
+    `<div class="stat"><b>${items.length}</b><span>items</span></div>`,
+    `<div class="stat"><b>${money(total)}</b><span>est. total</span></div>`,
+    `<div class="stat"><b>${ship.length}</b><span>keeping · ${money(shipVal)}</span></div>`,
+    `<div class="stat"><b>${money(sellVal)}</b><span>to sell (${sell.length})</span></div>`,
+    `<div class="stat"><b>${need}</b><span>to confirm</span></div>`
+  ].join("");
+
+  // filters
+  const f=[`<div class="pill ${filter.type==='all'?'on':''}" onclick="setFilter('all')">All</div>`,
+    `<div class="pill ${filter.type==='confirm'?'on':''}" onclick="setFilter('confirm')">🔎 To confirm</div>`];
+  ROOMS.forEach(r=>{ if(items.some(i=>i.room===r)) f.push(`<div class="pill ${filter.type==='room'&&filter.val===r?'on':''}" onclick="setFilter('room','${r}')">${r}</div>`)});
+  DECISIONS.forEach(d=>{ if(items.some(i=>i.decision===d.k)) f.push(`<div class="pill ${filter.type==='decision'&&filter.val===d.k?'on':''}" onclick="setFilter('decision','${d.k}')">${d.emoji} ${d.k}</div>`)});
+  document.getElementById("filters").innerHTML=f.join("");
+
+  // list
+  const list=document.getElementById("list");
+  const vis=visible();
+  if(!vis.length){ list.innerHTML=`<div class="empty">Nothing here yet.<br>Tap ＋ Add item.</div>`; return; }
+  list.innerHTML=vis.map(i=>{
+    const thumb=i.photo?`<img src="${i.photo}">`:(EMOJI[i.category]||"📦");
+    return `<div class="card" onclick="openEdit('${i.id}')">
+      <div class="thumb">${thumb}</div>
+      <div class="grow">
+        <div class="name">${esc(i.name)}</div>
+        <div class="meta">${esc(i.room)} · ${esc(i.category)}${(+i.qty>1)?" · ×"+i.qty:""}</div>
+        <div class="row2">
+          <span class="tag" style="background:${decColor(i.decision)}">${decEmoji(i.decision)} ${esc(i.decision)}</span>
+          <span class="val">${money((+i.value||0)*(+i.qty||1))}</span>
+        </div>
+        ${i.voltage?`<div class="volt">⚡ ${esc(i.voltage)}</div>`:""}
+        ${i.needsConfirm?`<div class="confirm">🔎 <span>${esc(i.note||"Needs your confirmation")}</span></div>`:""}
+      </div></div>`;
+  }).join("");
+}
+function esc(s){return (s==null?"":""+s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function setFilter(t,v){ filter={type:t,val:v||null}; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ---- edit sheet ---- */
+function fillSelect(id,arr,val){document.getElementById(id).innerHTML=arr.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join("")}
+let pendingPhoto=null;
+function openEdit(id){
+  pendingPhoto=null;
+  const it=id?state.items.find(x=>x.id===id):null;
+  document.getElementById("editTitle").textContent=it?"Edit item":"Add item";
+  document.getElementById("f_id").value=it?it.id:"";
+  document.getElementById("f_name").value=it?it.name:"";
+  fillSelect("f_category",CATS,it?it.category:"Misc");
+  fillSelect("f_room",ROOMS,it?it.room:(filter.type==='room'?filter.val:"Living Room"));
+  document.getElementById("f_qty").value=it?it.qty:1;
+  document.getElementById("f_value").value=it?it.value:0;
+  fillSelect("f_decision",DECISIONS.map(d=>d.k),it?it.decision:"Unsure");
+  document.getElementById("f_voltage").value=it?(it.voltage||""):"";
+  document.getElementById("f_note").value=it?(it.note||""):"";
+  const prev=document.getElementById("f_prev");
+  if(it&&it.photo){prev.src=it.photo;prev.style.display="block";}else{prev.style.display="none";prev.src="";}
+  document.getElementById("delBtn").style.display=it?"block":"none";
+  openSheet("editSheet");
+}
+function onPhoto(e){
+  const file=e.target.files[0]; if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{ // downscale to keep localStorage small
+    const img=new Image();
+    img.onload=()=>{
+      const max=900,sc=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement("canvas");c.width=img.width*sc;c.height=img.height*sc;
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      pendingPhoto=c.toDataURL("image/jpeg",0.7);
+      const p=document.getElementById("f_prev");p.src=pendingPhoto;p.style.display="block";
+    };
+    img.src=r.result;
+  };
+  r.readAsDataURL(file);
+}
+function saveItem(){
+  const id=document.getElementById("f_id").value;
+  const obj={
+    id:id||("it-"+Date.now().toString(36)),
+    name:document.getElementById("f_name").value.trim()||"Untitled item",
+    category:document.getElementById("f_category").value,
+    room:document.getElementById("f_room").value,
+    qty:+document.getElementById("f_qty").value||1,
+    value:+document.getElementById("f_value").value||0,
+    decision:document.getElementById("f_decision").value,
+    voltage:document.getElementById("f_voltage").value.trim(),
+    note:document.getElementById("f_note").value.trim(),
+    confidence:"high",
+    needsConfirm:false
+  };
+  if(id){const i=state.items.findIndex(x=>x.id===id);const old=state.items[i];obj.photo=pendingPhoto||old.photo;state.items[i]=obj;}
+  else{if(pendingPhoto)obj.photo=pendingPhoto;state.items.unshift(obj);}
+  save();render();closeAll();toast(id?"Updated":"Added");
+}
+function deleteItem(){
+  const id=document.getElementById("f_id").value;
+  state.items=state.items.filter(x=>x.id!==id);save();render();closeAll();toast("Deleted");
+}
+
+/* ---- quick triage ---- */
+let reviewQ=[],reviewI=0;
+function startReview(){
+  reviewQ=state.items.filter(i=>i.needsConfirm||i.decision==="Unsure").map(i=>i.id);
+  if(!reviewQ.length)reviewQ=state.items.map(i=>i.id);
+  reviewI=0; if(!reviewQ.length){toast("Nothing to triage");return;}
+  renderReview(); openSheet("reviewSheet");
+}
+function renderReview(){
+  if(reviewI>=reviewQ.length){closeAll();toast("Triage complete 🎉");return;}
+  const it=state.items.find(x=>x.id===reviewQ[reviewI]);
+  if(!it){reviewI++;return renderReview();}
+  document.getElementById("revBar").style.width=Math.round(reviewI/reviewQ.length*100)+"%";
+  document.getElementById("revCount").textContent=`Item ${reviewI+1} of ${reviewQ.length}`;
+  document.getElementById("revBody").innerHTML=`
+    <div class="big">${it.photo?`<img src="${it.photo}" style="width:96px;height:96px;object-fit:cover;border-radius:18px">`:(EMOJI[it.category]||"📦")}</div>
+    <div class="rname">${esc(it.name)}</div>
+    <div class="rmeta">${esc(it.room)} · ${esc(it.category)} · ${money((+it.value||0)*(+it.qty||1))}</div>
+    ${it.voltage?`<div class="volt" style="text-align:center">⚡ ${esc(it.voltage)}</div>`:""}
+    ${it.note?`<div class="rmeta" style="margin-top:6px">${esc(it.note)}</div>`:""}`;
+  document.getElementById("revDecs").innerHTML=DECISIONS.map(d=>
+    `<button class="decbtn" style="background:${decColor(d.k)}" onclick="setDec('${d.k}')">${d.emoji} ${d.k}</button>`).join("")
+    +`<button class="decbtn" style="grid-column:1/3;background:var(--card2);color:var(--txt);border:1px solid var(--line)" onclick="editFromReview('${it.id}')">✏️ Edit details</button>`;
+}
+function setDec(k){
+  const it=state.items.find(x=>x.id===reviewQ[reviewI]);
+  if(it){it.decision=k;it.needsConfirm=false;save();}
+  reviewI++; render(); renderReview();
+}
+function editFromReview(id){closeAll();setTimeout(()=>openEdit(id),250);}
+
+/* ---- export ---- */
+function download(name,content,type){
+  const b=new Blob([content],{type});const u=URL.createObjectURL(b);
+  const a=document.createElement("a");a.href=u;a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+function csvCell(v){v=(v==null?"":""+v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+function buildCSV(){
+  const cols=[["Item","name"],["Category","category"],["Room","room"],["Qty","qty"],
+    ["Est. Value (USD)","value"],["Decision","decision"],["Power / Voltage","voltage"],
+    ["Notes","note"],["Confidence","confidence"],["Needs Confirm","needsConfirm"]];
+  const head=cols.map(c=>c[0]).join(",");
+  const rows=state.items.map(it=>cols.map(c=>{let v=it[c[1]];if(typeof v==="boolean")v=v?"Yes":"No";return csvCell(v)}).join(","));
+  return [head,...rows].join("\n");
+}
+function exportCSV(){download("austin-sydney-inventory.csv",buildCSV(),"text/csv");toast("CSV downloaded — /import into Notion");}
+function exportJSON(){download("austin-sydney-inventory.json",JSON.stringify(state,null,2),"application/json");toast("Backup saved");}
+function buildMarkdown(){
+  let m=`# Austin → Sydney Move Inventory\n\n`;
+  const byRoom={};state.items.forEach(i=>{(byRoom[i.room]=byRoom[i.room]||[]).push(i)});
+  for(const r in byRoom){m+=`## ${r}\n\n| Item | Qty | Est $ | Decision | Notes |\n|---|---|---|---|---|\n`;
+    byRoom[r].forEach(i=>{let n=(i.note||"").replace(/\|/g,"/");if(i.voltage)n+=" ⚡ "+i.voltage;
+      m+=`| ${i.name}${i.needsConfirm?" 🔎":""} | ${i.qty} | ${i.value} | ${i.decision} | ${n} |\n`});
+    m+="\n";}
+  return m;
+}
+function copyMarkdown(){
+  const t=buildMarkdown();
+  if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast("Markdown copied")).catch(()=>fallbackCopy(t));
+  else fallbackCopy(t);
+}
+function fallbackCopy(t){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();toast("Markdown copied");}
+function importJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(d.items){state=d;save();render();closeAll();toast("Restored");}else toast("Invalid file");}catch(err){toast("Couldn't read file");}};
+  r.readAsText(f);}
+function resetSeed(){if(confirm("Reset everything back to the photo-seeded list? Your edits will be lost.")){seed();render();closeAll();toast("Reset to seed");}}
+
+/* ---- sheet plumbing ---- */
+function openSheet(id){document.getElementById("scrim").classList.add("show");document.getElementById(id).classList.add("show");}
+function openMenu(){openSheet("menuSheet")}
+function closeAll(){document.getElementById("scrim").classList.remove("show");
+  document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("show"));}
+let tT;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(tT);tT=setTimeout(()=>t.classList.remove("show"),1800);}
+
+load();render();
+</script>
+</body>
+</html>

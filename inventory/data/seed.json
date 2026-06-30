@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "title": "Austin → Sydney Move Inventory",
+    "origin": "Austin, TX, USA",
+    "destination": "Sydney, NSW, Australia",
+    "currency": "USD",
+    "generatedFrom": "2 living-space photos (living room + bedroom/kitchen)",
+    "notes": "Seeded by Claude from photos. Values are rough estimates for triage, not appraisals. Confirm/adjust everything flagged 'needsConfirm'."
+  },
+  "items": [
+    {"id":"liv-tv","name":"Flat-screen TV (~65\" Sony)","category":"Electronics","room":"Living Room","qty":1,"value":900,"decision":"Sell","voltage":"Dual-voltage (works on AU power w/ plug adapter), but tuner won't get AU channels","note":"Bulky + costly to ship. Confirm exact size & model.","confidence":"medium","needsConfirm":true},
+    {"id":"liv-soundbar","name":"Soundbar","category":"Electronics","room":"Living Room","qty":1,"value":250,"decision":"Ship","voltage":"Confirm dual-voltage on power brick","note":"Confirm brand/model.","confidence":"medium","needsConfirm":true},
+    {"id":"liv-console","name":"TV stand / media console (black)","category":"Furniture","room":"Living Room","qty":1,"value":180,"decision":"Sell","voltage":"","note":"Bulky low-value furniture — usually not worth int'l shipping.","confidence":"high","needsConfirm":false},
+    {"id":"liv-ps5","name":"PlayStation 5","category":"Electronics","room":"Living Room","qty":1,"value":400,"decision":"Take in luggage","voltage":"Dual-voltage (100–240V) — just needs AU Type-I plug adapter","note":"Confirm disc vs digital edition.","confidence":"high","needsConfirm":true},
+    {"id":"liv-controller","name":"DualSense controller(s)","category":"Electronics","room":"Living Room","qty":1,"value":60,"decision":"Take in luggage","voltage":"USB-charged","note":"Confirm how many controllers.","confidence":"medium","needsConfirm":true},
+    {"id":"liv-speaker","name":"Tall floor speaker / subwoofer (black cylinder)","category":"Electronics","room":"Living Room","qty":1,"value":150,"decision":"Unsure","voltage":"Confirm dual-voltage","note":"Couldn't ID confidently — is this a Sonos/subwoofer/floor speaker?","confidence":"low","needsConfirm":true},
+    {"id":"liv-books","name":"Books (assorted)","category":"Misc","room":"Living Room","qty":20,"value":100,"decision":"Donate","voltage":"","note":"Heavy = expensive to ship by sea/air. Keep favourites in luggage. Confirm count.","confidence":"low","needsConfirm":true},
+    {"id":"liv-lamp","name":"Shelf floor lamp (wood + fabric shade)","category":"Lighting","room":"Living Room","qty":1,"value":90,"decision":"Sell","voltage":"120V bulb fixture — use AU bulb/adapter if shipped","note":"Bulky for the value.","confidence":"medium","needsConfirm":false},
+    {"id":"liv-monstera","name":"Monstera plant (large, white pot)","category":"Plants","room":"Living Room","qty":1,"value":50,"decision":"Give away","voltage":"","note":"⚠️ Australia bans importing live plants & soil (biosecurity). Cannot bring.","confidence":"high","needsConfirm":false},
+    {"id":"off-chair","name":"Office chair (black mesh)","category":"Furniture","room":"Office","qty":1,"value":120,"decision":"Sell","voltage":"","note":"Easy to rebuy in AU.","confidence":"high","needsConfirm":false},
+    {"id":"liv-recliner","name":"Recliner / armchair (grey)","category":"Furniture","room":"Living Room","qty":1,"value":300,"decision":"Sell","voltage":"","note":"Bulky. Sell unless sentimental/high-value.","confidence":"medium","needsConfirm":true},
+    {"id":"liv-coffeetable","name":"Coffee table (wood)","category":"Furniture","room":"Living Room","qty":1,"value":150,"decision":"Sell","voltage":"","note":"","confidence":"high","needsConfirm":false},
+    {"id":"liv-sidetable","name":"Round side/end table","category":"Furniture","room":"Living Room","qty":1,"value":80,"decision":"Sell","voltage":"","note":"","confidence":"high","needsConfirm":false},
+    {"id":"liv-candles","name":"Candles (Sand+Fog, Corona Del Mar)","category":"Decor","room":"Living Room","qty":3,"value":40,"decision":"Give away","voltage":"","note":"Low value, not worth shipping.","confidence":"high","needsConfirm":false},
+    {"id":"liv-foamroller","name":"Foam roller","category":"Fitness","room":"Living Room","qty":1,"value":25,"decision":"Take in luggage","voltage":"","note":"Light, packs around other items.","confidence":"high","needsConfirm":false},
+    {"id":"liv-rug","name":"Area rug (white shag)","category":"Decor","room":"Living Room","qty":1,"value":120,"decision":"Ship","voltage":"","note":"Rolls up small-ish. Ship or sell. Confirm size.","confidence":"medium","needsConfirm":true},
+    {"id":"liv-router","name":"Mesh WiFi router (white, eero-style)","category":"Electronics","room":"Living Room","qty":1,"value":120,"decision":"Take in luggage","voltage":"Dual-voltage USB-C/barrel","note":"Works in AU; your AU ISP may still supply its own modem. Confirm brand.","confidence":"medium","needsConfirm":true},
+    {"id":"liv-tablet","name":"iPad / tablet","category":"Electronics","room":"Living Room","qty":1,"value":350,"decision":"Take in luggage","voltage":"USB-charged","note":"Confirm model/size.","confidence":"medium","needsConfirm":true},
+    {"id":"liv-sneakers","name":"White sneakers","category":"Shoes","room":"Living Room","qty":1,"value":90,"decision":"Take in luggage","voltage":"","note":"Confirm brand/size.","confidence":"low","needsConfirm":true},
+    {"id":"bed-frame","name":"King bed frame + adjustable base (grey upholstered)","category":"Furniture","room":"Bedroom","qty":1,"value":1200,"decision":"Sell","voltage":"⚠️ Adjustable-base motor is 120V/60Hz — won't run on AU 240V/50Hz","note":"Heavy + electric base incompatible. High resale value — sell well.","confidence":"high","needsConfirm":true},
+    {"id":"bed-mattress","name":"King mattress","category":"Furniture","room":"Bedroom","qty":1,"value":800,"decision":"Sell","voltage":"","note":"AU 'King' dimensions differ from US King; bulky to ship. Sell & rebuy.","confidence":"high","needsConfirm":false},
+    {"id":"bed-bedding","name":"Bedding / green duvet set","category":"Linens","room":"Bedroom","qty":1,"value":120,"decision":"Ship","voltage":"","note":"Light & packs flat. Note: US King sheets won't fit an AU King bed.","confidence":"medium","needsConfirm":false},
+    {"id":"bed-nightstand","name":"Nightstand (black)","category":"Furniture","room":"Bedroom","qty":1,"value":70,"decision":"Sell","voltage":"","note":"","confidence":"high","needsConfirm":false},
+    {"id":"bed-clothing","name":"Clothing (full closet)","category":"Clothing","room":"Bedroom","qty":1,"value":1500,"decision":"Ship","voltage":"","note":"Highest-value-per-volume category — ship/luggage most of it. Confirm volume (boxes).","confidence":"low","needsConfirm":true},
+    {"id":"bed-wirerack","name":"Wire shelving rack (metal)","category":"Furniture","room":"Bedroom","qty":1,"value":60,"decision":"Sell","voltage":"","note":"Cheap to rebuy.","confidence":"high","needsConfirm":false},
+    {"id":"bed-duffel","name":"Gym / duffel bag","category":"Fitness","room":"Bedroom","qty":1,"value":50,"decision":"Take in luggage","voltage":"","note":"Use as a packing bag itself.","confidence":"high","needsConfirm":false},
+    {"id":"kit-ricecooker","name":"Rice cooker (Zojirushi-style)","category":"Kitchen Appliance","room":"Kitchen","qty":1,"value":200,"decision":"Sell","voltage":"⚠️ 120V heating appliance — will NOT work on AU 240V (a transformer is impractical for heat)","note":"Sell here, rebuy AU model. Confirm if it's a dual-voltage travel model.","confidence":"high","needsConfirm":true},
+    {"id":"kit-toaster","name":"Toaster oven / countertop microwave (black)","category":"Kitchen Appliance","room":"Kitchen","qty":1,"value":120,"decision":"Sell","voltage":"⚠️ 120V heating appliance — won't work on AU power","note":"Rebuy in AU.","confidence":"high","needsConfirm":false},
+    {"id":"kit-dishware","name":"Dishware / plates / Tupperware","category":"Kitchen","room":"Kitchen","qty":1,"value":150,"decision":"Donate","voltage":"","note":"Heavy/breakable; ship only favourites, donate the rest. Confirm.","confidence":"medium","needsConfirm":true},
+    {"id":"kit-cookware","name":"Cookware / utensils","category":"Kitchen","room":"Kitchen","qty":1,"value":100,"decision":"Donate","voltage":"","note":"Ship good knives/pans; donate basics.","confidence":"medium","needsConfirm":true},
+    {"id":"bath-toiletries","name":"Toiletries (bathroom)","category":"Misc","room":"Bathroom","qty":1,"value":50,"decision":"Take in luggage","voltage":"","note":"Bring travel sizes; bin/finish the rest. No aerosols in checked-bag limits.","confidence":"high","needsConfirm":false}
+  ]
+}
